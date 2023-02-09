@@ -4778,7 +4778,7 @@ pub fn NewPrinter(
             }
 
             return Printer{
-                .import_records = tree.import_records,
+                .import_records = tree.import_records.slice(),
                 .options = opts,
                 .symbols = symbols,
                 .writer = writer,
@@ -5230,7 +5230,7 @@ pub fn printAst(
         }
     }
 
-    for (tree.parts) |part| {
+    for (tree.parts.slice()) |part| {
         for (part.stmts) |stmt| {
             printer.printSemicolonIfNeeded();
             try printer.printStmt(stmt);
@@ -5273,7 +5273,7 @@ pub fn printJSON(
         writer,
         &ast,
         source,
-        std.mem.zeroes(Symbol.Map),
+        .{},
         .{},
         null,
         allocator,
@@ -5324,7 +5324,7 @@ pub fn printCommonJS(
             }
         }
     }
-    for (tree.parts) |part| {
+    for (tree.parts.slice()) |part| {
         for (part.stmts) |stmt| {
             printer.printSemicolonIfNeeded();
             try printer.printStmt(stmt);
@@ -5395,7 +5395,7 @@ pub fn printCommonJSThreaded(
         }
     }
 
-    for (tree.parts) |part| {
+    for (tree.parts.slice()) |part| {
         for (part.stmts) |stmt| {
             printer.printSemicolonIfNeeded();
             try printer.printStmt(stmt);
